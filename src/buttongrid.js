@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button, Grid, Box } from '@mui/material';
 import { styled } from '@mui/system';
 
@@ -11,10 +11,13 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }));
 
 const imageSets = {
-  'idle': ['idle/knight-idle1.png','idle/knight-idle2.png','idle/knight-idle3.png','idle/knight-idle4.png'],
-  'Left': ['idle/knight-idle1.png'],
-  'Up': ['idle/knight-idle1.png'],
-  'Right': ['idle/knight-idle1.png'],
+  'Left': ['left/knight-left1.png', 'left/knight-left2.png', 'left/knight-left3.png', 'left/knight-left4.png', 'left/knight-left5.png', 'left/knight-left6.png', 'left/knight-left7.png'],
+  'Up': ['up/knight-up1.png', 'up/knight-up2.png', 'up/knight-up3.png', 'up/knight-up4.png', 'up/knight-up5.png', 'up/knight-up6.png'],
+  'Right': ['right/knight-right1.png', 'right/knight-right2.png', 'right/knight-right3.png', 'right/knight-right4.png', 'right/knight-right5.png', 'right/knight-right6.png'],
+};
+
+const idleImageSet = {
+  'idle': ['idle/knight-idle1.png','idle/knight-idle2.png','idle/knight-idle3.png','idle/knight-idle4.png', 'idle/knight-idle5.png','idle/knight-idle6.png','idle/knight-idle7.png', 'idle/knight-idle8.png','idle/knight-idle9.png'],
 };
 
 const animationIntervalTime = 200;
@@ -24,11 +27,45 @@ export default function ButtonGrid() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentImageSet, setCurrentImageSet] = useState([]);
   const [animationInterval, setAnimationInterval] = useState(null);
+  const buttonPressed = useRef(false);
 
   useEffect(() => {
     // Load the default image set when the component mounts
-    setCurrentImageSet(imageSets['idle']);
+    setCurrentImageSet(idleImageSet['idle']);
     return clearAnimation;
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (!buttonPressed.current) {
+        switch (event.key) {
+          case 'a':
+            handleButtonPress('Left');
+            break;
+          case 'w':
+            handleButtonPress('Up');
+            break;
+          case 'd':
+            handleButtonPress('Right');
+            break;
+          default:
+            break;
+        }
+        buttonPressed.current = true;
+      }
+    };
+
+    const handleKeyUp = () => {
+      buttonPressed.current = false;
+      clearAnimation();
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keyup', handleKeyUp);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keyup', handleKeyUp);
+    };
   }, []);
 
   // Function to start animation interval
@@ -49,10 +86,10 @@ export default function ButtonGrid() {
   const clearAnimation = () => {
     clearInterval(animationInterval);
     setAnimationInterval(null);
-  }
+  };
 
-  // Function to handle button hover
-  const handleButtonHover = (buttonName) => {
+  // Function to handle button press
+  const handleButtonPress = (buttonName) => {
     setCurrentImageSet(imageSets[buttonName]);
     setCurrentImageIndex(0); // Reset image index
 
@@ -61,11 +98,11 @@ export default function ButtonGrid() {
       case 'Left':
         startAnimation(-10, 0);
         break;
+      case 'Up':
+        startAnimation(0, -10);
+        break;
       case 'Right':
         startAnimation(10, 0);
-        break;
-      case 'Jump':
-        startAnimation(0, -10);
         break;
       default:
         break;
@@ -92,8 +129,8 @@ export default function ButtonGrid() {
           position: 'relative',
           left: position.x,
           top: position.y,
-          width: '32px', // Adjust the width as needed
-          height: '32px', // Adjust the height as needed 
+          width: '100px', // Adjust the width as needed
+          height: '100px', // Adjust the height as needed 
           }}
         />
       </Grid>
@@ -104,7 +141,7 @@ export default function ButtonGrid() {
         {Object.keys(imageSets).map((buttonName, index) => (
           <Grid item xs={3} key={index} margin={"auto"}>
             <StyledButton
-              onMouseOver={() => handleButtonHover(buttonName)}
+              onMouseOver={() => handleButtonPress(buttonName)}
               onMouseLeave={handleMouseLeave}
             >
               {buttonName}
