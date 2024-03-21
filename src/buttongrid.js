@@ -25,12 +25,51 @@ const idleImageSet = {
 const animationIntervalTime = 200;
 
 export default function ButtonGrid() {
-  const [position, setPosition] = useState({ x: 0, y: 300 });
+  const [position, setPosition] = useState({ x: 710, y: 650 });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentImageSet, setCurrentImageSet] = useState([]);
   const [animationInterval, setAnimationInterval] = useState(null);
   const buttonPressed = useRef(false);
 
+  const [blockPosition, setBlockPosition] = useState({ x: 350, y: 515 });
+
+  useEffect(() => {
+    if (
+      position.x < blockPosition.x + 100 && // Assuming avatar width is 100px
+      position.x + 100 > blockPosition.x && // Assuming avatar width is 100px
+      position.y < blockPosition.y + 50 && // Assuming block height is 50px
+      position.y + 100> blockPosition.y // Assuming avatar height is 100px
+    ) {
+      console.log("Collision detected!");
+      // Handle collision here (e.g., stop animation, reset positions, etc.)
+    }
+  }, [position, blockPosition]); // Add position and blockPosition as dependencies
+
+
+  const startBlockAnimation = () => {
+    const blockInterval = setInterval(() => {
+        setBlockPosition(prevPosition => ({
+          x: (prevPosition.x + 10 ), // Adjust based on your grid width and starting position
+          y: prevPosition.y,
+        }));
+
+    }, animationIntervalTime);
+  };
+
+  useEffect(() => {
+    startBlockAnimation();
+  }, []);
+
+  useEffect(() => {
+    if (blockPosition.x >= 1080) {
+      setBlockPosition({ x: 350, y: 515 });
+      console.log("sdhfsldkfjk");
+    }
+
+    if(position == blockPosition){
+      console.log("IIIII got hitt");
+    }
+  }, [blockPosition.x, position]);
 
   useEffect(() => {
     // Load the default image set when the component mounts
@@ -99,8 +138,8 @@ export default function ButtonGrid() {
     // if (!animationInterval) {
       const interval = setInterval(() => {
         setPosition(prevPosition => ({
-          x: Math.max(Math.min(prevPosition.x + deltaX, 370), -370),
-          y: Math.max(Math.min(prevPosition.y + deltaY, 180), -180)
+          x:  prevPosition.x, //Math.max(Math.min(prevPosition.x + deltaX, 370), -370),
+          y:  (prevPosition.y - 15),//Math.max(Math.min(prevPosition.y + deltaY, 180), -180)
         }));
 
         setCurrentImageIndex(currentIndex => (currentIndex+1) % currentImageSet.length);
@@ -112,7 +151,7 @@ export default function ButtonGrid() {
       setTimeout(() => {
         clearInterval(interval);
         setAnimationInterval(null);
-      }, 2000);
+      }, 2500);
     // }
   };
 
@@ -156,11 +195,24 @@ export default function ButtonGrid() {
         alignItems="center"
         style={{ minHeight: '700px', width: '90%', border: '2px solid black', margin: "auto", backgroundImage: `url(${bg_image})`, }}
       >
+        
+        {/* Render animated blocks */}
+  <div
+    style={{
+      position: 'absolute',
+      left: blockPosition.x,
+      top: blockPosition.y,
+      width: '100px', // Adjust the width of the blocks as needed
+      height: '50px', // Adjust the height of the blocks as needed
+      backgroundColor: 'red', // Customize the block's appearance
+    }}
+  ></div>
+
         <img
           src={currentImageSet[currentImageIndex]} // Set the image source dynamically
           alt="Animated Image"
           style={{ 
-          position: 'relative',
+          position: 'absolute',
           left: position.x,
           top: position.y,
           width: '100px', // Adjust the width as needed
@@ -168,6 +220,7 @@ export default function ButtonGrid() {
           }}
         />
       </Grid>
+
 
       <Grid 
       container rowSpacing={1} 
