@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button, Grid, Box } from '@mui/material';
 import { styled } from '@mui/system';
-import bg_image from './bg_image.png';
+import InfiniteBackground from './InfiniteBackground';
 
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -68,7 +68,7 @@ export default function ButtonGrid() {
             break;
           case 'w':
             // handleButtonPress('Up');
-            startAnimation(0, -10);
+            startAnimation(0, 0);
             break;
           case 'd':
             // handleButtonPress('Right');
@@ -151,23 +151,39 @@ export default function ButtonGrid() {
   return (
     <Box sx={{ width: '80%', margin: "auto" }}>
       <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-        style={{ minHeight: '700px', width: '90%', border: '2px solid black', margin: "auto", backgroundImage: `url(${bg_image})`, }}
-      >
-        <img
-          src={currentImageSet[currentImageIndex]} // Set the image source dynamically
-          alt="Animated Image"
-          style={{ 
-          position: 'relative',
-          left: position.x,
-          top: position.y,
-          width: '100px', // Adjust the width as needed
-          height: '100px', // Adjust the height as needed 
-          }}
-        />
-      </Grid>
+  container
+  justifyContent="center"
+  alignItems="center"
+  style={{ 
+    minHeight: '700px', 
+    width: '90%', 
+    border: '2px solid black', 
+    margin: "auto", 
+    position: 'relative' // Add position relative to the grid
+  }}
+>
+  <InfiniteBackground
+    style={{ 
+      position: 'absolute', // Position the background absolutely within the grid
+      top: 0, 
+      left: 0, 
+      width: '100%', // Fill the entire width of the grid
+      height: '100%', // Fill the entire height of the grid
+    }}
+  />
+  <img
+    src={currentImageSet[currentImageIndex]} // Set the image source dynamically
+    alt="Animated Image"
+    style={{ 
+      position: 'relative',
+      left: position.x,
+      top: position.y,
+      width: '100px', // Adjust the width as needed
+      height: '100px', // Adjust the height as needed 
+    }}
+  />
+</Grid>
+
 
       <Grid 
       container rowSpacing={1} 
