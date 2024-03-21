@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button, Grid, Box } from '@mui/material';
 import { styled } from '@mui/system';
+import Popup from './components/Popup';
 import InfiniteBackground from './InfiniteBackground';
 
 
@@ -29,6 +30,7 @@ export default function ButtonGrid() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentImageSet, setCurrentImageSet] = useState([]);
   const [animationInterval, setAnimationInterval] = useState(null);
+  const [buttonPopup, setButtonPopup] = useState(false);
   const buttonPressed = useRef(false);
 
 
@@ -148,6 +150,11 @@ export default function ButtonGrid() {
     clearAnimation(); // Stop animation when mouse leaves button
   };
 
+  const handleClosePopup = () => {
+    setButtonPopup(false); // Function to close the popup
+    window.location.reload();
+};
+
   return (
     <Box sx={{ width: '80%', margin: "auto" }}>
       <Grid
@@ -199,6 +206,8 @@ export default function ButtonGrid() {
           </Grid>
         ))}
       </Grid>
+      <StyledButton className='test' onClick={() => setButtonPopup(true)}>Open Popup</StyledButton>
+      <Popup trigger={buttonPopup} onClose={handleClosePopup}></Popup>
     </Box>
   );
 }
