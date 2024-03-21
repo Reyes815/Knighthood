@@ -1,0 +1,42 @@
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%; /* Adjusted to fill the whole screen */
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* Ensure the popup is on top of other elements */
+}
+
+.popup-inner {
+    position: relative;
+    padding: 32px;
+    width: 80%; /* Adjusted width to make the popup smaller */
+    max-width: 400px; /* Increased max-width for larger screens */
+    background-color: #2c3e50; /* Darker color for a game-like feel */
+    border-radius: 10px; /* Rounded corners for aesthetics */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Drop shadow for depth */
+    text-align: center; /* Center the content */
+}
+
+.popup-inner h2 {
+    color: #fff; /* White text color for better contrast */
+}
+
+.popup-inner .try-button {
+    margin-top: 20px; /* Added margin for spacing */
+    padding: 10px 20px; /* Increased padding for better clickability */
+    font-size: 16px; /* Adjusted font size */
+    background-color: #3498db; /* Button color */
+    color: #fff; /* Text color */
+    border: none; /* Removed border for a cleaner look */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Show pointer on hover */
+}
+
+.popup-inner .try-button:hover {
+    background-color: #2980b9; /* Darker button color on hover */
+}
