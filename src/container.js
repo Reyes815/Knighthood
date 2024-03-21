@@ -25,7 +25,7 @@ export default function FixedContainer() {
     <React.Fragment>
       <CssBaseline />
       <Container fixed >  
-        <Box sx={{ bgcolor: 'white', height: '85vh'}}>
+        <Box sx={{ bgcolor: 'white'}}>
             <Timer/>
             <ButtonGrid/>
         </Box> 
