@@ -32,6 +32,7 @@ export default function ButtonGrid() {
   const [animationInterval, setAnimationInterval] = useState(null);
   const [buttonPopup, setButtonPopup] = useState(false);
   const buttonPressed = useRef(false);
+  let timerValue = 69;
 
 
   useEffect(() => {
@@ -151,9 +152,14 @@ export default function ButtonGrid() {
   };
 
   const handleClosePopup = () => {
-    setButtonPopup(false); // Function to close the popup
-    window.location.reload();
-};
+    setButtonPopup(false); // Close the popup
+    window.location.reload(); // Restart the website
+  };
+
+  const popupButtonClick = () => {
+    setButtonPopup(true); // Open the popup
+  };
+
 
   return (
     <Box sx={{ width: '80%', margin: "auto" }}>
@@ -190,8 +196,8 @@ export default function ButtonGrid() {
           </Grid>
         ))}
       </Grid>
-      <StyledButton className='test' onClick={() => setButtonPopup(true)}>Open Popup</StyledButton>
-      <Popup trigger={buttonPopup} onClose={handleClosePopup}></Popup>
+      <StyledButton className='test' onClick={() => popupButtonClick()}>Open Popup</StyledButton>
+      <Popup trigger={buttonPopup} onClose={handleClosePopup} time={timerValue}></Popup>
     </Box>
   );
 }

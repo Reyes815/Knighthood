@@ -2,7 +2,7 @@ import React from "react";
 import './Popup.css'
 
 function Popup(props) {
-    const { trigger, onClose } = props;
+    const { trigger, onClose, time } = props;
 
     const handleClose = () => {
         onClose(); // Call the onClose function passed from the parent component
@@ -12,7 +12,7 @@ function Popup(props) {
         <div className="popup">
             <div className="popup-inner">
                 <h1>YOU LOST</h1>
-                <h2>Your score: </h2>
+                <h2>Your score: {time} seconds</h2>
                 <button className="try-button" onClick={handleClose}>Try Again</button>
                 {props.children}
             </div>
