@@ -26,7 +26,7 @@ const idleImageSet = {
 const animationIntervalTime = 200;
 
 export default function ButtonGrid() {
-  const [position, setPosition] = useState({ x: 710, y: 650 });
+  const [position, setPosition] = useState({ x: 360, y: 550 });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentImageSet, setCurrentImageSet] = useState([]);
   const [animationInterval, setAnimationInterval] = useState(null);
@@ -34,7 +34,7 @@ export default function ButtonGrid() {
   const buttonPressed = useRef(false);
   let timerValue = 69;
 
-  const [blockPosition, setBlockPosition] = useState({ x: 350, y: 515 });
+  const [blockPosition, setBlockPosition] = useState({ x: 0, y: 480 });
 
   useEffect(() => {
     if (
@@ -64,8 +64,8 @@ export default function ButtonGrid() {
   }, []);
 
   useEffect(() => {
-    if (blockPosition.x >= 1080) {
-      setBlockPosition({ x: 350, y: 515 });
+    if (blockPosition.x >= 730) {
+      setBlockPosition({ x: 0, y: 480 });
       console.log("sdhfsldkfjk");
     }
 
@@ -154,7 +154,7 @@ export default function ButtonGrid() {
       setTimeout(() => {
         clearInterval(interval);
         setAnimationInterval(null);
-      }, 2500);
+      }, 1300);
     // }
   };
 
@@ -223,11 +223,25 @@ export default function ButtonGrid() {
       height: '100%', // Fill the entire height of the grid
     }}
   />
+
+   {/* Render animated blocks */}
+   <div
+    style={{
+      position: 'absolute',
+      left: blockPosition.x,
+      top: blockPosition.y,
+      width: '100px', // Adjust the width of the blocks as needed
+      height: '50px', // Adjust the height of the blocks as needed
+      backgroundColor: 'red', // Customize the block's appearance
+    }}
+  ></div>
+
+
   <img
     src={currentImageSet[currentImageIndex]} // Set the image source dynamically
     alt="Animated Image"
     style={{ 
-      position: 'relative',
+      position: 'absolute',
       left: position.x,
       top: position.y,
       width: '100px', // Adjust the width as needed
