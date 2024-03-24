@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button, Grid, Box } from '@mui/material';
 import { styled } from '@mui/system';
-import bg_image from './bg_image.png';
 import Popup from './components/Popup';
+import InfiniteBackground from './InfiniteBackground';
 
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -26,7 +26,7 @@ const idleImageSet = {
 const animationIntervalTime = 200;
 
 export default function ButtonGrid() {
-  const [position, setPosition] = useState({ x: 0, y: 300 });
+  const [position, setPosition] = useState({ x: 710, y: 650 });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentImageSet, setCurrentImageSet] = useState([]);
   const [animationInterval, setAnimationInterval] = useState(null);
@@ -34,6 +34,45 @@ export default function ButtonGrid() {
   const buttonPressed = useRef(false);
   let timerValue = 69;
 
+  const [blockPosition, setBlockPosition] = useState({ x: 350, y: 515 });
+
+  useEffect(() => {
+    if (
+      position.x < blockPosition.x + 100 && // Assuming avatar width is 100px
+      position.x + 100 > blockPosition.x && // Assuming avatar width is 100px
+      position.y < blockPosition.y + 50 && // Assuming block height is 50px
+      position.y + 100> blockPosition.y // Assuming avatar height is 100px
+    ) {
+      console.log("Collision detected!");
+      // Handle collision here (e.g., stop animation, reset positions, etc.)
+    }
+  }, [position, blockPosition]); // Add position and blockPosition as dependencies
+
+
+  const startBlockAnimation = () => {
+    const blockInterval = setInterval(() => {
+        setBlockPosition(prevPosition => ({
+          x: (prevPosition.x + 10 ), // Adjust based on your grid width and starting position
+          y: prevPosition.y,
+        }));
+
+    }, animationIntervalTime);
+  };
+
+  useEffect(() => {
+    startBlockAnimation();
+  }, []);
+
+  useEffect(() => {
+    if (blockPosition.x >= 1080) {
+      setBlockPosition({ x: 350, y: 515 });
+      console.log("sdhfsldkfjk");
+    }
+
+    if(position == blockPosition){
+      console.log("IIIII got hitt");
+    }
+  }, [blockPosition.x, position]);
 
   useEffect(() => {
     // Load the default image set when the component mounts
@@ -71,7 +110,7 @@ export default function ButtonGrid() {
             break;
           case 'w':
             // handleButtonPress('Up');
-            startAnimation(0, -10);
+            startAnimation(0, 0);
             break;
           case 'd':
             // handleButtonPress('Right');
@@ -102,8 +141,8 @@ export default function ButtonGrid() {
     // if (!animationInterval) {
       const interval = setInterval(() => {
         setPosition(prevPosition => ({
-          x: Math.max(Math.min(prevPosition.x + deltaX, 370), -370),
-          y: Math.max(Math.min(prevPosition.y + deltaY, 180), -180)
+          x:  prevPosition.x, //Math.max(Math.min(prevPosition.x + deltaX, 370), -370),
+          y:  (prevPosition.y - 15),//Math.max(Math.min(prevPosition.y + deltaY, 180), -180)
         }));
 
         setCurrentImageIndex(currentIndex => (currentIndex+1) % currentImageSet.length);
@@ -115,7 +154,7 @@ export default function ButtonGrid() {
       setTimeout(() => {
         clearInterval(interval);
         setAnimationInterval(null);
-      }, 2000);
+      }, 2500);
     // }
   };
 
@@ -164,23 +203,39 @@ export default function ButtonGrid() {
   return (
     <Box sx={{ width: '80%', margin: "auto" }}>
       <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-        style={{ minHeight: '700px', width: '90%', border: '2px solid black', margin: "auto", backgroundImage: `url(${bg_image})`, }}
-      >
-        <img
-          src={currentImageSet[currentImageIndex]} // Set the image source dynamically
-          alt="Animated Image"
-          style={{ 
-          position: 'relative',
-          left: position.x,
-          top: position.y,
-          width: '100px', // Adjust the width as needed
-          height: '100px', // Adjust the height as needed 
-          }}
-        />
-      </Grid>
+  container
+  justifyContent="center"
+  alignItems="center"
+  style={{ 
+    minHeight: '700px', 
+    width: '90%', 
+    border: '2px solid black', 
+    margin: "auto", 
+    position: 'relative' // Add position relative to the grid
+  }}
+>
+  <InfiniteBackground
+    style={{ 
+      position: 'absolute', // Position the background absolutely within the grid
+      top: 0, 
+      left: 0, 
+      width: '100%', // Fill the entire width of the grid
+      height: '100%', // Fill the entire height of the grid
+    }}
+  />
+  <img
+    src={currentImageSet[currentImageIndex]} // Set the image source dynamically
+    alt="Animated Image"
+    style={{ 
+      position: 'relative',
+      left: position.x,
+      top: position.y,
+      width: '100px', // Adjust the width as needed
+      height: '100px', // Adjust the height as needed 
+    }}
+  />
+</Grid>
+
 
       <Grid 
       container rowSpacing={1} 
