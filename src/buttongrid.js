@@ -3,7 +3,7 @@ import { Button, Grid, Box } from '@mui/material';
 import { styled } from '@mui/system';
 import Popup from './components/Popup';
 import InfiniteBackground from './InfiniteBackground';
-
+import Block from './block.js'; // Correct import statement
 
 const StyledButton = styled(Button)(({ theme }) => ({
   width: '90%', // Adjust as needed
@@ -34,46 +34,6 @@ export default function ButtonGrid() {
   const buttonPressed = useRef(false);
   let timerValue = 69;
 
-  const [blockPosition, setBlockPosition] = useState({ x: 0, y: 480 });
-
-  useEffect(() => {
-    if (
-      position.x < blockPosition.x + 100 && // Assuming avatar width is 100px
-      position.x + 100 > blockPosition.x && // Assuming avatar width is 100px
-      position.y < blockPosition.y + 50 && // Assuming block height is 50px
-      position.y + 100> blockPosition.y // Assuming avatar height is 100px
-    ) {
-      console.log("Collision detected!");
-      // Handle collision here (e.g., stop animation, reset positions, etc.)
-    }
-  }, [position, blockPosition]); // Add position and blockPosition as dependencies
-
-
-  const startBlockAnimation = () => {
-    const blockInterval = setInterval(() => {
-        setBlockPosition(prevPosition => ({
-          x: (prevPosition.x + 10 ), // Adjust based on your grid width and starting position
-          y: prevPosition.y,
-        }));
-
-    }, animationIntervalTime);
-  };
-
-  useEffect(() => {
-    startBlockAnimation();
-  }, []);
-
-  useEffect(() => {
-    if (blockPosition.x >= 730) {
-      setBlockPosition({ x: 0, y: 480 });
-      console.log("sdhfsldkfjk");
-    }
-
-    if(position == blockPosition){
-      console.log("IIIII got hitt");
-    }
-  }, [blockPosition.x, position]);
-
   useEffect(() => {
     // Load the default image set when the component mounts
     setCurrentImageSet(idleImageSet['idle']);
@@ -101,163 +61,108 @@ export default function ButtonGrid() {
       setCurrentImageIndex(0); // Reset image index
       console.log(event.key);
 
-      // if (!buttonPressed.current) {
-        switch (event.key) {
-          case 'a':
-            // handleButtonPress('Left');
-            console.log("hgdsgfds")
-            startAnimation(-10, 0);
-            break;
-          case 'w':
-            // handleButtonPress('Up');
-            startAnimation(0, 0);
-            break;
-          case 'd':
-            // handleButtonPress('Right');
-            startAnimation(10, 0);
-            break;
-          default:
-            break;
-        }
-        // buttonPressed.current = true;
-      // }
+      switch (event.key) {
+        case 'a':
+          startAnimation(-10, 0);
+          break;
+        case 'w':
+          startAnimation(0, 0);
+          break;
+        case 'd':
+          startAnimation(10, 0);
+          break;
+        default:
+          break;
+      }
     };
 
     const handleKeyUp = () => {
-      // buttonPressed.current = false;
       clearAnimation();
     };
 
     document.addEventListener('keydown', handleKeyDown);
-    // document.addEventListener('keyup', handleKeyUp);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      // document.removeEventListener('keyup', handleKeyUp);
     };
   }, [currentImageSet]);
 
-  // Function to start animation interval
   const startAnimation = (deltaX, deltaY) => {
-    // if (!animationInterval) {
-      const interval = setInterval(() => {
-        setPosition(prevPosition => ({
-          x:  prevPosition.x, //Math.max(Math.min(prevPosition.x + deltaX, 370), -370),
-          y:  (prevPosition.y - 15),//Math.max(Math.min(prevPosition.y + deltaY, 180), -180)
-        }));
+    const interval = setInterval(() => {
+      setPosition(prevPosition => ({
+        x:  prevPosition.x + deltaX,
+        y:  prevPosition.y + deltaY,
+      }));
 
-        setCurrentImageIndex(currentIndex => (currentIndex+1) % currentImageSet.length);
+      setCurrentImageIndex(currentIndex => (currentIndex + 1) % currentImageSet.length);
 
-      }, animationIntervalTime);
+    }, animationIntervalTime);
 
-      // setAnimationInterval(interval);
-
-      setTimeout(() => {
-        clearInterval(interval);
-        setAnimationInterval(null);
-      }, 1300);
-    // }
+    setTimeout(() => {
+      clearInterval(interval);
+      setAnimationInterval(null);
+    }, 1300);
   };
 
-  // Function to clear animation interval
   const clearAnimation = () => {
     clearInterval(animationInterval);
     setAnimationInterval(null);
   };
 
-  // Function to handle button press
-  const handleButtonPress = (buttonName) => {
-    setCurrentImageSet(imageSets[buttonName]);
-    setCurrentImageIndex(0); // Reset image index
-
-    // Start animation interval
-    switch (buttonName) {
-      case 'Left':
-        startAnimation(-10, 0);
-        break;
-      case 'Up':
-        startAnimation(0, -10);
-        break;
-      case 'Right':
-        startAnimation(10, 0);
-        break;
-      default:
-        break;
-    }
-  };
-
-  // Function to handle mouse leave
-  const handleMouseLeave = () => {
-    clearAnimation(); // Stop animation when mouse leaves button
-  };
-
   const handleClosePopup = () => {
-    setButtonPopup(false); // Close the popup
-    window.location.reload(); // Restart the website
+    setButtonPopup(false);
+    window.location.reload();
   };
 
   const popupButtonClick = () => {
-    setButtonPopup(true); // Open the popup
+    setButtonPopup(true);
   };
-
 
   return (
     <Box sx={{ width: '80%', margin: "auto" }}>
       <Grid
-  container
-  justifyContent="center"
-  alignItems="center"
-  style={{ 
-    minHeight: '700px', 
-    width: '90%', 
-    border: '2px solid black', 
-    margin: "auto", 
-    position: 'relative' // Add position relative to the grid
-  }}
->
-  <InfiniteBackground
-    style={{ 
-      position: 'absolute', // Position the background absolutely within the grid
-      top: 0, 
-      left: 0, 
-      width: '100%', // Fill the entire width of the grid
-      height: '100%', // Fill the entire height of the grid
-    }}
-  />
+        container
+        justifyContent="center"
+        alignItems="center"
+        style={{ 
+          minHeight: '700px', 
+          width: '90%', 
+          border: '2px solid black', 
+          margin: "auto", 
+          position: 'relative'
+        }}
+      >
+        <InfiniteBackground
+          style={{ 
+            position: 'absolute',
+            top: 0, 
+            left: 0, 
+            width: '100%', 
+            height: '100%', 
+          }}
+        />
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} />
 
-   {/* Render animated blocks */}
-   <div
-    style={{
-      position: 'absolute',
-      left: blockPosition.x,
-      top: blockPosition.y,
-      width: '100px', // Adjust the width of the blocks as needed
-      height: '50px', // Adjust the height of the blocks as needed
-      backgroundColor: 'red', // Customize the block's appearance
-    }}
-  ></div>
-
-
-  <img
-    src={currentImageSet[currentImageIndex]} // Set the image source dynamically
-    alt="Animated Image"
-    style={{ 
-      position: 'absolute',
-      left: position.x,
-      top: position.y,
-      width: '100px', // Adjust the width as needed
-      height: '100px', // Adjust the height as needed 
-    }}
-  />
-</Grid>
-
+        <img
+          src={currentImageSet[currentImageIndex]}
+          alt="Animated Image"
+          style={{ 
+            position: 'absolute',
+            left: position.x,
+            top: position.y,
+            width: '100px',
+            height: '100px', 
+          }}
+        />
+      </Grid>
 
       <Grid 
-      container rowSpacing={1} 
-      columnSpacing={{ xs: 1, sm: 2, md: 3}}>
+        container rowSpacing={1} 
+        columnSpacing={{ xs: 1, sm: 2, md: 3}}
+      >
         {Object.keys(imageSets).map((buttonName, index) => (
           <Grid item xs={3} key={index} margin={"auto"}>
             <StyledButton
-              onClick={() => handleButtonPress(buttonName)}
+              // onClick={() => handleButtonPress(buttonName)}
               // onMouseLeave={handleMouseLeave}
             >
               {buttonName}
