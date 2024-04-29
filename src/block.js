@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import Popup from './components/Popup';
 
 const Block = ({ position, setPosition, animationIntervalTime }) => {
   const [blockPosition, setBlockPosition] = useState({ x: 0, y: 480 });
+  const [buttonPopup, setButtonPopup] = useState(false);
+  const buttonPressed = useRef(false);
+  const [showPopup, setShowPopup] = useState(false);
+  let timerValue = 69;
 
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -25,6 +30,7 @@ const Block = ({ position, setPosition, animationIntervalTime }) => {
     ) {
       console.log("Collision detected!");
       // Handle collision here (e.g., stop animation, reset positions, etc.)
+      setShowPopup(true);
     }
   }, [position, blockPosition]);
 
@@ -36,6 +42,14 @@ const Block = ({ position, setPosition, animationIntervalTime }) => {
       }));
     }, animationIntervalTime);
   };
+
+  // useEffect(() => {
+  //   if (position === blockPosition) {
+  //     console.log("Collision detected!");
+  //     setShowPopup(true); // Show the Popup when collision is detected
+  //     // Handle collision here (e.g., stop animation, reset positions, etc.)
+  //   }
+  // }, [position, blockPosition]);
 
   useEffect(() => {
     startBlockAnimation();
@@ -49,21 +63,36 @@ const Block = ({ position, setPosition, animationIntervalTime }) => {
       console.log("Block position reset");
     }
 
-    if (position === blockPosition) {
-      console.log("Collision detected!");
-      // Handle collision here
-    }
+    // if (position === blockPosition) {
+    //   console.log("Collision detected!");
+    //   // Handle collision here
+    // }
   }, [blockPosition.x, position]);
+
+
 
   const moveBlockDown = () => {
     // Function to move the block down when 'w' key is pressed
     setBlockPosition(prevPosition => ({
       x: prevPosition.x,
-      y: prevPosition.y + 60, // Adjust the value as needed
+      y: prevPosition.y + 100, // Adjust the value as needed
     }));
   };
 
+  const handleClosePopup = () => {
+    setButtonPopup(false);
+    window.location.reload();
+  };
+
+  const popupButtonClick = () => {
+    setButtonPopup(true);
+  };
+
   return (
+    <>
+    {showPopup && (
+      <Popup trigger={true} onClose={handleClosePopup} time={timerValue}></Popup>
+    )}
     <div
       style={{
         position: 'absolute',
@@ -73,7 +102,9 @@ const Block = ({ position, setPosition, animationIntervalTime }) => {
         height: '50px', // Adjust the height of the block as needed
         backgroundColor: 'red', // Customize the block's appearance
       }}
-    ></div>
+    >
+    </div>
+    </>
   );
 };
 

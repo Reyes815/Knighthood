@@ -14,7 +14,6 @@ import {
   Label,
   Input,
 } from "reactstrap";
-import UserLoginData from "./userlogin";
 //import { UserContext } from "../../Usercontext";
 
 const Login = () => {
@@ -27,12 +26,6 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    const userLoginData = {
-        username: 'testuser',
-        password: 'testpassword'
-      };
-
 
     try {
       const response = await axios.post(
@@ -131,7 +124,7 @@ const Login = () => {
                 <p style={{ display: "inline", textDecoration: "none", color: "#000000", marginRight: "5px" }}>
                   Don't have an account?
                 </p>
-                <a href="/#/register" style={{ textDecoration: "none", color: "#41C9E2" }}>
+                <a href="/register" style={{ textDecoration: "none", color: "#41C9E2" }}>
                   Register Now!
                 </a>
               </div>
