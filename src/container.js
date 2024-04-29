@@ -22,7 +22,8 @@ export default function FixedContainer() {
   }
 
   return (
-    <React.Fragment>
+    <div className='App'>
+      <React.Fragment>
       <CssBaseline />
       <Container fixed >  
         <Box sx={{ bgcolor: 'white'}}>
@@ -31,5 +32,6 @@ export default function FixedContainer() {
         </Box> 
       </Container>
     </React.Fragment>
+    </div>
   );
 }
