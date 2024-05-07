@@ -1,0 +1,25 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "public/knighthood_background_tileset.tsx": {
+            "scaleInEditor": 0.33
+        }
+    },
+    "last.imagePath": "C:/Users/Rowen/Desktop/Terrain/Ground",
+    "map.lastUsedFormat": "tmx",
+    "map.width": 10,
+    "openFiles": [
+    ],
+    "project": "Assets.tiled-project",
+    "recentFiles": [
+        "public/knighthood_background_tileset.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx"
+}
