@@ -1,18 +1,23 @@
 import React from 'react';
 import './App.css';
 import FixedContainer from './container';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import Login from './login';
+import Registration from './register';
 
 function App() {
   return (
-    <div className='App'>
-      {/* <header className='App'> */}
-        <FixedContainer />
-      {/* </header> */}
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/'   element={<Navigate to='/login'/>}/>
+          <Route path='/login' element={<Login/>}/>
+          <Route path='/main_app' element={<FixedContainer/>}/>
+          <Route path='/register' element={<Registration/>}/>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
 
 export default App;
-
-
-
