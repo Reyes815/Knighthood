@@ -154,7 +154,7 @@ export default function ButtonGrid({currentTime}) {
         />
         <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialX={0} initialY={480} speed={speed} time={currentTime}/>
         <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialX={200} initialY={295} speed={speed} time={currentTime}/>
-        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialX={400} initialY={110} speed={10} time={currentTime}/> 
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialX={400} initialY={110} speed={speed} time={currentTime}/> 
         <img
           src={currentImageSet[currentImageIndex]}
           alt="Animated Image"
