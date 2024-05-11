@@ -107,8 +107,8 @@ const Block = ({ position, setPosition, animationIntervalTime, initialX, initial
           position: 'absolute',
           left: blockPosition.x,
           top: blockPosition.y,
-          width: '96px', // Adjust the width of the block as needed
-          height: '96px', // Adjust the height of the block as needed
+          width: '56px', // Adjust the width of the block as needed
+          height: '70px', // Adjust the height of the block as needed
         }}
       />
     </>
