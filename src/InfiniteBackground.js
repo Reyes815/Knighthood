@@ -6,7 +6,7 @@ const InfiniteBackground = () => {
 
   // UseEffect to handle movement logic based on key press
   useEffect(() => {
-    const moveSpeed = 100; // Adjust movement speed as needed
+    const moveSpeed = 0; // Adjust movement speed as needed
 
     const handleKeyPress = (event) => {
       const background = backgroundRef.current;

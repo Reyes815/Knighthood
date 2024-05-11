@@ -25,15 +25,16 @@ const idleImageSet = {
 
 const animationIntervalTime = 200;
 
-export default function ButtonGrid() {
+export default function ButtonGrid({currentTime}) {
+  const [speed, setSpeed] = useState(20); 
   const [position, setPosition] = useState({ x: 360, y: 550 });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentImageSet, setCurrentImageSet] = useState([]);
   const [animationInterval, setAnimationInterval] = useState(null);
   const [buttonPopup, setButtonPopup] = useState(false);
+  const [animationInProgress, setAnimationInProgress] = useState(false);
   const buttonPressed = useRef(false);
   let timerValue = 69;
-
   useEffect(() => {
     // Load the default image set when the component mounts
     setCurrentImageSet(idleImageSet['idle']);
@@ -41,38 +42,47 @@ export default function ButtonGrid() {
   }, []);
 
   useEffect(() => {
+    
+    if (position.y <= 10) {
+      setPosition({ x: 360, y: 550 });
+    }
+  }, [position.y]);
+
+  useEffect(() => {
     const handleKeyDown = (event) => {
-      var name;
-      switch( event.key ) {
-        case 'a':
-          name = 'Left'
-          break;
-        case 'w':
-          name = 'Up'
-          break;
-        case 'd':
-          name = 'Right'
-          break;
-        default:
-          return;
-      }
+      if (!animationInProgress) {
+        var name;
+        switch( event.key ) {
+          case 'a':
+            name = 'Left'
+            break;
+          case 'w':
+            name = 'Up'
+            break;
+          case 'd':
+            name = 'Right'
+            break;
+          default:
+            return;
+        }
 
-      setCurrentImageSet(imageSets[name]);
-      setCurrentImageIndex(0); // Reset image index
-      console.log(event.key);
+        setCurrentImageSet(imageSets[name]);
+        setCurrentImageIndex(0); // Reset image index
+        console.log(event.key);
 
-      switch (event.key) {
-        case 'a':
-          startAnimation(-10, 0);
-          break;
-        case 'w':
-          startAnimation(0, 0);
-          break;
-        case 'd':
-          startAnimation(10, 0);
-          break;
-        default:
-          break;
+        switch (event.key) {
+          case 'a':
+            startAnimation(-10, 0);
+            break;
+          case 'w':
+            startAnimation(0, -15);
+            break;
+          case 'd':
+            startAnimation(10, 0);
+            break;
+          default:
+            break;
+        }
       }
     };
 
@@ -84,9 +94,10 @@ export default function ButtonGrid() {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [currentImageSet]);
+  }, [currentImageSet, animationInProgress]);
 
   const startAnimation = (deltaX, deltaY) => {
+    setAnimationInProgress(true);
     const interval = setInterval(() => {
       setPosition(prevPosition => ({
         x:  prevPosition.x + deltaX,
@@ -100,12 +111,14 @@ export default function ButtonGrid() {
     setTimeout(() => {
       clearInterval(interval);
       setAnimationInterval(null);
+      setAnimationInProgress(false);
     }, 1300);
   };
 
   const clearAnimation = () => {
     clearInterval(animationInterval);
     setAnimationInterval(null);
+    setAnimationInProgress(false);
   };
 
   const handleClosePopup = () => {
@@ -140,8 +153,9 @@ export default function ButtonGrid() {
             height: '100%', 
           }}
         />
-        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} />
-
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialX={0} initialY={480} speed={speed} time={currentTime}/>
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialX={200} initialY={295} speed={speed} time={currentTime}/>
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialX={400} initialY={110} speed={speed} time={currentTime}/>
         <img
           src={currentImageSet[currentImageIndex]}
           alt="Animated Image"
@@ -162,8 +176,6 @@ export default function ButtonGrid() {
         {Object.keys(imageSets).map((buttonName, index) => (
           <Grid item xs={3} key={index} margin={"auto"}>
             <StyledButton
-              // onClick={() => handleButtonPress(buttonName)}
-              // onMouseLeave={handleMouseLeave}
             >
               {buttonName}
             </StyledButton>

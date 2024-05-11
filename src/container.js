@@ -17,7 +17,10 @@ export default function FixedContainer() {
     }, []);
   
     return (
-      <div style={{ color: 'black' }}>{time}</div> // Set color to black
+      <div style={{ color: 'black' }}>
+      <div style={{ color: 'black' }}>{time}</div>
+        <ButtonGrid currentTime={time} /> 
+      </div> // Set color to black
     );
   }
 
@@ -28,7 +31,6 @@ export default function FixedContainer() {
       <Container fixed >  
         <Box sx={{ bgcolor: 'white'}}>
             <Timer/>
-            <ButtonGrid/>
         </Box> 
       </Container>
     </React.Fragment>

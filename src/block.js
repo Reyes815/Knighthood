@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Popup from './components/Popup';
 
-const Block = ({ position, setPosition, animationIntervalTime }) => {
-  const [blockPosition, setBlockPosition] = useState({ x: 0, y: 480 });
-  const [buttonPopup, setButtonPopup] = useState(false);
-  const buttonPressed = useRef(false);
+const Block = ({ position, setPosition, animationIntervalTime, initialX, initialY, speed,time }) => {
+  const [blockPosition, setBlockPosition] = useState({ x: initialX, y: initialY });
   const [showPopup, setShowPopup] = useState(false);
-  let timerValue = 69;
+  const [timeToBlock, setTimeToBlock] = useState(null);
 
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -29,81 +27,66 @@ const Block = ({ position, setPosition, animationIntervalTime }) => {
       position.y + 100 > blockPosition.y
     ) {
       console.log("Collision detected!");
-      // Handle collision here (e.g., stop animation, reset positions, etc.)
-      setShowPopup(true);
+      let currentTime = time;
+    setTimeToBlock(currentTime);
+    setShowPopup(true);
     }
   }, [position, blockPosition]);
 
-  const startBlockAnimation = () => {
+  useEffect(() => {
     const blockInterval = setInterval(() => {
       setBlockPosition(prevPosition => ({
-        x: prevPosition.x + 10, // Adjust based on your grid width and starting position
+        x: prevPosition.x + speed, // Adjust based on speed
         y: prevPosition.y,
       }));
     }, animationIntervalTime);
-  };
 
-  // useEffect(() => {
-  //   if (position === blockPosition) {
-  //     console.log("Collision detected!");
-  //     setShowPopup(true); // Show the Popup when collision is detected
-  //     // Handle collision here (e.g., stop animation, reset positions, etc.)
-  //   }
-  // }, [position, blockPosition]);
-
-  useEffect(() => {
-    startBlockAnimation();
-  }, []);
+    return () => {
+      clearInterval(blockInterval);
+    };
+  }, []); // Empty dependency array to ensure the effect runs only once
 
   useEffect(() => {
     if (blockPosition.x >= 730) {
       setBlockPosition(prevPosition => ({ 
         x: 0, 
-        y: prevPosition + 60 }));
+        y: prevPosition.y
+      }));
       console.log("Block position reset");
+      console.log(blockPosition.y);
+    } else if (blockPosition.y >= 680) {
+      
     }
-
-    // if (position === blockPosition) {
-    //   console.log("Collision detected!");
-    //   // Handle collision here
-    // }
-  }, [blockPosition.x, position]);
-
-
+  }, [blockPosition.x, blockPosition.y]);
 
   const moveBlockDown = () => {
     // Function to move the block down when 'w' key is pressed
     setBlockPosition(prevPosition => ({
       x: prevPosition.x,
-      y: prevPosition.y + 100, // Adjust the value as needed
+      y: prevPosition.y , // Adjust the value as needed
     }));
   };
 
   const handleClosePopup = () => {
-    setButtonPopup(false);
+    setShowPopup(false);
     window.location.reload();
-  };
-
-  const popupButtonClick = () => {
-    setButtonPopup(true);
   };
 
   return (
     <>
-    {showPopup && (
-      <Popup trigger={true} onClose={handleClosePopup} time={timerValue}></Popup>
-    )}
-    <div
-      style={{
-        position: 'absolute',
-        left: blockPosition.x,
-        top: blockPosition.y,
-        width: '100px', // Adjust the width of the block as needed
-        height: '50px', // Adjust the height of the block as needed
-        backgroundColor: 'red', // Customize the block's appearance
-      }}
-    >
-    </div>
+      {showPopup && (
+        <Popup trigger={true} onClose={handleClosePopup} time={timeToBlock}></Popup>
+      )}
+      <div
+        style={{
+          position: 'absolute',
+          left: blockPosition.x,
+          top: blockPosition.y,
+          width: '100px', // Adjust the width of the block as needed
+          height: '50px', // Adjust the height of the block as needed
+          backgroundColor: 'red', // Customize the block's appearance
+        }}
+      ></div>
     </>
   );
 };
