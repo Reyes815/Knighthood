@@ -3,7 +3,7 @@ import { Button, Grid, Box } from '@mui/material';
 import { styled } from '@mui/system';
 import Popup from './components/Popup';
 import InfiniteBackground from './InfiniteBackground';
-import Block from './block.js'; // Correct import statement
+import Block from './block';
 
 const StyledButton = styled(Button)(({ theme }) => ({
   width: '90%', // Adjust as needed
@@ -27,14 +27,13 @@ const animationIntervalTime = 200;
 
 export default function ButtonGrid({currentTime}) {
   const [speed, setSpeed] = useState(20); 
-  const [position, setPosition] = useState({ x: 360, y: 550 });
+  const [position, setPosition] = useState({ x: 416, y: 620 });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentImageSet, setCurrentImageSet] = useState([]);
   const [animationInterval, setAnimationInterval] = useState(null);
   const [buttonPopup, setButtonPopup] = useState(false);
   const [animationInProgress, setAnimationInProgress] = useState(false);
   const buttonPressed = useRef(false);
-  let timerValue = 69;
   useEffect(() => {
     // Load the default image set when the component mounts
     setCurrentImageSet(idleImageSet['idle']);
@@ -44,7 +43,7 @@ export default function ButtonGrid({currentTime}) {
   useEffect(() => {
     
     if (position.y <= 10) {
-      setPosition({ x: 360, y: 550 });
+      setPosition({ x: 416, y: 620 });
     }
   }, [position.y]);
 
@@ -75,7 +74,7 @@ export default function ButtonGrid({currentTime}) {
             startAnimation(-10, 0);
             break;
           case 'w':
-            startAnimation(0, -15);
+            startAnimation(0, -12);
             break;
           case 'd':
             startAnimation(10, 0);
@@ -137,8 +136,8 @@ export default function ButtonGrid({currentTime}) {
         justifyContent="center"
         alignItems="center"
         style={{ 
-          minHeight: '700px', 
-          width: '90%', 
+          minHeight: '704px', 
+          minWidth: '832px', 
           border: '2px solid black', 
           margin: "auto", 
           position: 'relative'
@@ -155,7 +154,7 @@ export default function ButtonGrid({currentTime}) {
         />
         <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialX={0} initialY={480} speed={speed} time={currentTime}/>
         <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialX={200} initialY={295} speed={speed} time={currentTime}/>
-        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialX={400} initialY={110} speed={speed} time={currentTime}/>
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialX={400} initialY={110} speed={10} time={currentTime}/> 
         <img
           src={currentImageSet[currentImageIndex]}
           alt="Animated Image"
@@ -163,8 +162,8 @@ export default function ButtonGrid({currentTime}) {
             position: 'absolute',
             left: position.x,
             top: position.y,
-            width: '100px',
-            height: '100px', 
+            width: '96px',
+            height: '96px', 
           }}
         />
       </Grid>
@@ -182,8 +181,8 @@ export default function ButtonGrid({currentTime}) {
           </Grid>
         ))}
       </Grid>
-      <StyledButton className='test' onClick={() => popupButtonClick()}>Open Popup</StyledButton>
-      <Popup trigger={buttonPopup} onClose={handleClosePopup} time={timerValue}></Popup>
+      {/* <StyledButton className='test' onClick={() => popupButtonClick()}>Open Popup</StyledButton>
+      <Popup trigger={buttonPopup} onClose={handleClosePopup} time={timerValue}></Popup> */}
     </Box>
   );
 }

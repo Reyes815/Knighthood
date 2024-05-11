@@ -1,10 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import Popup from './components/Popup';
 
-const Block = ({ position, setPosition, animationIntervalTime, initialX, initialY, speed,time }) => {
+const Block = ({ position, setPosition, animationIntervalTime, initialX, initialY, speed, time }) => {
   const [blockPosition, setBlockPosition] = useState({ x: initialX, y: initialY });
   const [showPopup, setShowPopup] = useState(false);
   const [timeToBlock, setTimeToBlock] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const PriestImageSet = {
+    'walk': [
+      'priest/cultist_priest_walk_1.png',
+      'priest/cultist_priest_walk_2.png',
+      'priest/cultist_priest_walk_3.png',
+      'priest/cultist_priest_walk_4.png',
+      'priest/cultist_priest_walk_5.png',
+      'priest/cultist_priest_walk_6.png'
+    ]
+  };
+
+  useEffect(() => {
+    const animationInterval = setInterval(() => {
+      setCurrentImageIndex(prevIndex => (prevIndex + 1) % PriestImageSet['walk'].length);
+    }, animationIntervalTime);
+  
+    return () => {
+      clearInterval(animationInterval);
+    };
+  }, [animationIntervalTime]);
+  
 
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -28,8 +51,8 @@ const Block = ({ position, setPosition, animationIntervalTime, initialX, initial
     ) {
       console.log("Collision detected!");
       let currentTime = time;
-    setTimeToBlock(currentTime);
-    setShowPopup(true);
+      setTimeToBlock(currentTime);
+      setShowPopup(true);
     }
   }, [position, blockPosition]);
 
@@ -77,16 +100,17 @@ const Block = ({ position, setPosition, animationIntervalTime, initialX, initial
       {showPopup && (
         <Popup trigger={true} onClose={handleClosePopup} time={timeToBlock}></Popup>
       )}
-      <div
+      <img
+        src={PriestImageSet['walk'][currentImageIndex]}
+        alt="Block"
         style={{
           position: 'absolute',
           left: blockPosition.x,
           top: blockPosition.y,
-          width: '100px', // Adjust the width of the block as needed
-          height: '50px', // Adjust the height of the block as needed
-          backgroundColor: 'red', // Customize the block's appearance
+          width: '96px', // Adjust the width of the block as needed
+          height: '96px', // Adjust the height of the block as needed
         }}
-      ></div>
+      />
     </>
   );
 };

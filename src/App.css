@@ -71,7 +71,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('bg_image.png'); /* Replace with your image path */
+  background-image: url('Field_Background.png'); /* Replace with your image path */
   background-size: cover;
   background-repeat: repeat-y; /* Ensure the background repeats vertically */
 }
