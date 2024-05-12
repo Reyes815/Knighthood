@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Popup from './components/Popup';
 
-const Block = ({ position, setPosition, animationIntervalTime, initialX, initialY, speed, time }) => {
-  const [blockPosition, setBlockPosition] = useState({ x: initialX, y: initialY });
+const getRandomInitialX = (range) => {
+  return Math.floor(Math.random() * (range.max - range.min + 1) + range.min);
+};
+
+const Block = ({ position, setPosition, animationIntervalTime, initialXRange, initialY, speed, time }) => {
+  const [blockPosition, setBlockPosition] = useState({ x: getRandomInitialX(initialXRange), y: initialY });
   const [showPopup, setShowPopup] = useState(false);
   const [timeToBlock, setTimeToBlock] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -70,15 +74,13 @@ const Block = ({ position, setPosition, animationIntervalTime, initialX, initial
   }, []); // Empty dependency array to ensure the effect runs only once
 
   useEffect(() => {
-    if (blockPosition.x >= 730) {
+    if (blockPosition.x >= 850) {
       setBlockPosition(prevPosition => ({ 
         x: 0, 
         y: prevPosition.y
       }));
       console.log("Block position reset");
       console.log(blockPosition.y);
-    } else if (blockPosition.y >= 680) {
-      
     }
   }, [blockPosition.x, blockPosition.y]);
 

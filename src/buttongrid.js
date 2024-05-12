@@ -44,6 +44,7 @@ export default function ButtonGrid({currentTime}) {
     
     if (position.y <= 10) {
       setPosition({ x: 416, y: 620 });
+      setSpeed(prevSpeed => prevSpeed + 1000);
     }
   }, [position.y]);
 
@@ -74,7 +75,7 @@ export default function ButtonGrid({currentTime}) {
             startAnimation(-10, 0);
             break;
           case 'w':
-            startAnimation(0, -10);
+            startAnimation(0, -11.5);
             break;
           case 'd':
             startAnimation(10, 0);
@@ -152,9 +153,11 @@ export default function ButtonGrid({currentTime}) {
             height: '100%', 
           }}
         />
-        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialX={0} initialY={480} speed={speed} time={currentTime}/>
-        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialX={200} initialY={295} speed={speed} time={currentTime}/>
-        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialX={400} initialY={110} speed={speed} time={currentTime}/> 
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={60} speed={speed} time={currentTime}/>
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={135} speed={speed} time={currentTime}/>
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={570} speed={speed} time={currentTime}/>
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={415} speed={speed} time={currentTime}/>
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={275} speed={speed} time={currentTime}/> 
         <img
           src={currentImageSet[currentImageIndex]}
           alt="Animated Image"
