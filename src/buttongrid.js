@@ -27,7 +27,7 @@ const animationIntervalTime = 200;
 
 export default function ButtonGrid({currentTime}) {
   const [speed, setSpeed] = useState(20); 
-  const [position, setPosition] = useState({ x: 416, y: 620 });
+  const [position, setPosition] = useState({ x: 416, y: 635 });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentImageSet, setCurrentImageSet] = useState([]);
   const [animationInterval, setAnimationInterval] = useState(null);
@@ -74,7 +74,7 @@ export default function ButtonGrid({currentTime}) {
             startAnimation(-10, 0);
             break;
           case 'w':
-            startAnimation(0, -12);
+            startAnimation(0, -10);
             break;
           case 'd':
             startAnimation(10, 0);
@@ -162,8 +162,8 @@ export default function ButtonGrid({currentTime}) {
             position: 'absolute',
             left: position.x,
             top: position.y,
-            width: '96px',
-            height: '96px', 
+            width: '64px',
+            height: '64px', 
           }}
         />
       </Grid>
