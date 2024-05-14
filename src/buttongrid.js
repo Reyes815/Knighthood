@@ -44,6 +44,7 @@ export default function ButtonGrid({currentTime}) {
     
     if (position.y <= 10) {
       setPosition({ x: 416, y: 620 });
+      startAnimation(0, 2);
       setSpeed(prevSpeed => prevSpeed + 1000);
     }
   }, [position.y]);
@@ -75,7 +76,7 @@ export default function ButtonGrid({currentTime}) {
             startAnimation(-10, 0);
             break;
           case 'w':
-            startAnimation(0, -11.5);
+            startAnimation(0, -11.7);
             break;
           case 'd':
             startAnimation(10, 0);
@@ -153,11 +154,11 @@ export default function ButtonGrid({currentTime}) {
             height: '100%', 
           }}
         />
-        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={60} speed={speed} time={currentTime}/>
-        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={135} speed={speed} time={currentTime}/>
-        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={570} speed={speed} time={currentTime}/>
-        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={415} speed={speed} time={currentTime}/>
-        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={275} speed={speed} time={currentTime}/> 
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={70} speed={speed} time={currentTime}/>
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={140} speed={speed} time={currentTime}/>
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={565} speed={speed} time={currentTime}/>
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={425} speed={speed} time={currentTime}/>
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={280} speed={speed} time={currentTime}/> 
         <img
           src={currentImageSet[currentImageIndex]}
           alt="Animated Image"

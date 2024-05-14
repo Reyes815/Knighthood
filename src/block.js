@@ -48,10 +48,10 @@ const Block = ({ position, setPosition, animationIntervalTime, initialXRange, in
 
   useEffect(() => {
     if (
-      position.x < blockPosition.x + 100 &&
-      position.x + 100 > blockPosition.x &&
-      position.y < blockPosition.y + 50 &&
-      position.y + 100 > blockPosition.y
+      position.x < blockPosition.x + 50 &&
+      position.x + 50 > blockPosition.x &&
+      position.y < blockPosition.y + 60 &&
+      position.y + 60 > blockPosition.y
     ) {
       console.log("Collision detected!");
       let currentTime = time;
