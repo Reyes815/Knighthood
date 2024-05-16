@@ -37,12 +37,11 @@ const Login = () => {
       );
 
       if (response.data) {
-        if (response.data){
-          navigate('/main_app');
-        }
-    } else {
-        throw "Invalid Login";
-    }
+        // get user_id using username & password
+        navigate('/main_app');
+      } else {
+        throw new Error("Invalid Login");
+      }
 
     //     if(response.data.message === 'admin'){
     //       navigate(`/admin`);

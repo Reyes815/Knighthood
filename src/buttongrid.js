@@ -24,8 +24,8 @@ const idleImageSet = {
 };
 
 const animationIntervalTime = 200;
-
-export default function ButtonGrid({currentTime}) {
+let counter = 0;
+export default function ButtonGrid({currentTime, user_id}) {
   const [speed, setSpeed] = useState(20); 
   const [position, setPosition] = useState({ x: 416, y: 635 });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -59,6 +59,7 @@ export default function ButtonGrid({currentTime}) {
             break;
           case 'w':
             name = 'Up'
+            counter++; 
             break;
           case 'd':
             name = 'Right'
@@ -154,11 +155,11 @@ export default function ButtonGrid({currentTime}) {
             height: '100%', 
           }}
         />
-        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={70} speed={speed} time={currentTime}/>
-        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={140} speed={speed} time={currentTime}/>
-        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={565} speed={speed} time={currentTime}/>
-        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={425} speed={speed} time={currentTime}/>
-        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={280} speed={speed} time={currentTime}/> 
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={70} speed={speed} time={currentTime} count = {counter} user_id  = {user_id}/>
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={140} speed={speed} time={currentTime} count = {counter} user_id  = {user_id}/>
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={565} speed={speed} time={currentTime} count = {counter} user_id  = {user_id}/>
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={425} speed={speed} time={currentTime} count = {counter} user_id  = {user_id}/>
+        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={280} speed={speed} time={currentTime} count = {counter} user_id  = {user_id}/> 
         <img
           src={currentImageSet[currentImageIndex]}
           alt="Animated Image"

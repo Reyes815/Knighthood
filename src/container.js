@@ -3,8 +3,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import ButtonGrid from './buttongrid';
-
+import {useParams} from 'react-router-dom';
 export default function FixedContainer() {
+  const {user_id} = useParams();
   function Timer() {
     const [time, setTime] = useState(0);
   
@@ -19,7 +20,7 @@ export default function FixedContainer() {
     return (
       <div style={{ color: 'black' }}>
       <div style={{ color: 'black' }}>{time}</div>
-        <ButtonGrid currentTime={time} /> 
+        <ButtonGrid currentTime={time} user_id = {user_id}/> 
       </div> // Set color to black
     );
   }

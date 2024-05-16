@@ -5,11 +5,11 @@ const getRandomInitialX = (range) => {
   return Math.floor(Math.random() * (range.max - range.min + 1) + range.min);
 };
 
-const Block = ({ position, setPosition, animationIntervalTime, initialXRange, initialY, speed, time }) => {
+const Block = ({ position, setPosition, animationIntervalTime, initialXRange, initialY, speed, time, count, user_id }) => {
   const [blockPosition, setBlockPosition] = useState({ x: getRandomInitialX(initialXRange), y: initialY });
   const [showPopup, setShowPopup] = useState(false);
-  const [timeToBlock, setTimeToBlock] = useState(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [points, setPoints] = useState(0);
+  const [hasCollided, setHasCollided] = useState(false); // New state variable to track collision
 
   const PriestImageSet = {
     'walk': [
@@ -24,44 +24,6 @@ const Block = ({ position, setPosition, animationIntervalTime, initialXRange, in
 
   useEffect(() => {
     const animationInterval = setInterval(() => {
-      setCurrentImageIndex(prevIndex => (prevIndex + 1) % PriestImageSet['walk'].length);
-    }, animationIntervalTime);
-  
-    return () => {
-      clearInterval(animationInterval);
-    };
-  }, [animationIntervalTime]);
-  
-
-  useEffect(() => {
-    const handleKeyPress = (event) => {
-      if (event.key === 'w') {
-        moveBlockDown(); // Call moveBlockDown when 'w' key is pressed
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyPress);
-    return () => {
-      document.removeEventListener('keydown', handleKeyPress);
-    };
-  }, []); // Empty dependency array to ensure the effect runs only once
-
-  useEffect(() => {
-    if (
-      position.x < blockPosition.x + 50 &&
-      position.x + 50 > blockPosition.x &&
-      position.y < blockPosition.y + 60 &&
-      position.y + 60 > blockPosition.y
-    ) {
-      console.log("Collision detected!");
-      let currentTime = time;
-      setTimeToBlock(currentTime);
-      setShowPopup(true);
-    }
-  }, [position, blockPosition]);
-
-  useEffect(() => {
-    const blockInterval = setInterval(() => {
       setBlockPosition(prevPosition => ({
         x: prevPosition.x + speed, // Adjust based on speed
         y: prevPosition.y,
@@ -69,9 +31,29 @@ const Block = ({ position, setPosition, animationIntervalTime, initialXRange, in
     }, animationIntervalTime);
 
     return () => {
-      clearInterval(blockInterval);
+      clearInterval(animationInterval);
     };
-  }, []); // Empty dependency array to ensure the effect runs only once
+  }, [animationIntervalTime, speed]);
+
+  useEffect(() => {
+    if (
+      !hasCollided && // Check if collision has not occurred yet
+      position.x < blockPosition.x + 50 &&
+      position.x + 50 > blockPosition.x &&
+      position.y < blockPosition.y + 60 &&
+      position.y + 60 > blockPosition.y
+    ) {
+      console.log("Collision detected!");
+      setPoints(Math.max(count * 10 - time, 0));
+      setShowPopup(true);
+      setHasCollided(true); // Set hasCollided to true to prevent further detection
+    }
+  }, [position, blockPosition, count, time, hasCollided]);
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    window.location.reload();
+  };
 
   useEffect(() => {
     if (blockPosition.x >= 850) {
@@ -84,26 +66,15 @@ const Block = ({ position, setPosition, animationIntervalTime, initialXRange, in
     }
   }, [blockPosition.x, blockPosition.y]);
 
-  const moveBlockDown = () => {
-    // Function to move the block down when 'w' key is pressed
-    setBlockPosition(prevPosition => ({
-      x: prevPosition.x,
-      y: prevPosition.y , // Adjust the value as needed
-    }));
-  };
-
-  const handleClosePopup = () => {
-    setShowPopup(false);
-    window.location.reload();
-  };
-
   return (
     <>
+    
       {showPopup && (
-        <Popup trigger={true} onClose={handleClosePopup} time={timeToBlock}></Popup>
+        <Popup trigger={true} onClose={handleClosePopup} time={points} user_id = {user_id}></Popup>
       )}
+  
       <img
-        src={PriestImageSet['walk'][currentImageIndex]}
+        src={PriestImageSet['walk'][0]} // Adjust the image index as needed
         alt="Block"
         style={{
           position: 'absolute',
