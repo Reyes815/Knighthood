@@ -100,14 +100,22 @@ export default function ButtonGrid({currentTime, user_id}) {
 
   const startAnimation = (deltaX, deltaY) => {
     setAnimationInProgress(true);
+    console.log(position);
     const interval = setInterval(() => {
-      setPosition(prevPosition => ({
-        x:  prevPosition.x + deltaX,
-        y:  prevPosition.y + deltaY,
-      }));
+        setPosition(prevPosition => {
+          let newX = prevPosition.x + deltaX;
+          let newY = prevPosition.y + deltaY;
+          
+          if (newX < 0) newX = 0;
+          if (newX > 855) newX = 855;
 
-      setCurrentImageIndex(currentIndex => (currentIndex + 1) % currentImageSet.length);
+            return {
+                x: newX,
+                y: newY,
+            };
+        });
 
+        setCurrentImageIndex(currentIndex => (currentIndex + 1) % currentImageSet.length);
     }, animationIntervalTime);
 
     setTimeout(() => {
