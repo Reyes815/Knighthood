@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import ButtonGrid from './buttongrid';
 import {useParams} from 'react-router-dom';
+import { UserContext } from './Usercontext';
+
 export default function FixedContainer() {
-  const {user_id} = useParams();
+  const { user_id } = useContext(UserContext);
   function Timer() {
     const [time, setTime] = useState(0);
   

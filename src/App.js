@@ -13,7 +13,7 @@ function App() {
           <Route path='/'   element={<Navigate to='/login'/>}/>
           <Route path='/login' element={<Login />}/> 
           <Route path='/'   element={<Navigate to='/main_app'/>}/>
-          <Route path='/main_app:user_id' element={<FixedContainer/>}/>
+          <Route path='/main_app' element={<FixedContainer/>}/>
           <Route path='/register' element={<Registration/>}/>
         </Routes>
       </BrowserRouter>

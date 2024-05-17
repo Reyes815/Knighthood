@@ -14,13 +14,13 @@ import {
   Label,
   Input,
 } from "reactstrap";
-//import { UserContext } from "../../Usercontext";
+import { UserContext } from "./Usercontext";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-//   const { setUser_id } = useContext(UserContext);
+  const { setUser_id } = useContext(UserContext);
 //   const { setOrg_id } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -36,27 +36,15 @@ const Login = () => {
         }
       );
 
-      if (response.data) {
+      if (response) {
         // get user_id using username & password
+        setUser_id(response.data.user_id)
+
         navigate('/main_app');
       } else {
         throw new Error("Invalid Login");
       }
-
-    //     if(response.data.message === 'admin'){
-    //       navigate(`/admin`);
-    //       setUser_id(response.data.user.user_id);
-    //     }
-
-    //     if(response.data.message === 'user'){
-    //       navigate(`/user/`);
-    //       setUser_id(response.data.user.user_id);
-    //     }
-    //   } else if (response.data.error) {
-    //     setMessage(response.data.error);
-    //   }
     } catch (error) {
-    //   console.error("Error:", error);
       setMessage("Error: ".concat(error));
     }
   };
