@@ -12,6 +12,7 @@ export default function FixedContainer() {
     const [time, setTime] = useState(0);
   
     useEffect(() => {
+      console.log(user_id)
       const interval = setInterval(() => {
         setTime(prevTime => prevTime + 1);
       }, 1000); // Update time every second

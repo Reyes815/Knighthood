@@ -1,24 +1,31 @@
 import React, { useEffect, useState } from "react";
 import './Popup.css'
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 function Popup(props) {
     const { trigger, onClose, time, user_id } = props;
     const [count, setCount] = useState(0);
+    const navigate = useNavigate();
 
     const handleClose = () => {
         onClose(); // Call the onClose function passed from the parent component
     };
 
+    const homebutton = () => {
+        navigate('/main_menu');
+    };
+
     const saveScore = async () => {
+        console.log(user_id);
         try {
-            console.log(time + "YAWAAA"+user_id+" YAWAA");
+            console.log(user_id);
             const response = await axios.post('/api/scores', {
-                user_id: user_id,
+                userid: user_id,
                 score: time // Assuming 'time' is the score
             });
             if (response.data) {
-                console.log('Score saved successfully');
+                console.log(response.data);
             } else {
                 throw new Error("Invalid response data");
             }
@@ -42,6 +49,7 @@ function Popup(props) {
                 <h1>CONGRATULATIONS</h1>
                 <h2>Your score: {time} points</h2>
                 <button className="try-button" onClick={handleClose}>Try Again</button>
+                <button className="try-button" onClick={homebutton}>Home</button>
                 {props.children}
             </div>
         </div>

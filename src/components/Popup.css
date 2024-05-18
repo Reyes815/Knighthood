@@ -35,6 +35,8 @@
     border: none; /* Removed border for a cleaner look */
     border-radius: 5px; /* Rounded corners */
     cursor: pointer; /* Show pointer on hover */
+    display: block;
+    width: 100%;
 }
 
 .popup-inner .try-button:hover {

@@ -40,7 +40,7 @@ const Login = () => {
         // get user_id using username & password
         setUser_id(response.data.user_id)
 
-        navigate('/main_app');
+        navigate('/main_menu');
       } else {
         throw new Error("Invalid Login");
       }
