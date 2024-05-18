@@ -10,6 +10,7 @@ const Block = ({ position, setPosition, animationIntervalTime, initialXRange, in
   const [showPopup, setShowPopup] = useState(false);
   const [points, setPoints] = useState(0);
   const [hasCollided, setHasCollided] = useState(false); // New state variable to track collision
+  const [currentFrameIndex, setCurrentFrameIndex] = useState(0); // State variable to track current frame index
 
   const PriestImageSet = {
     'walk': [
@@ -24,8 +25,9 @@ const Block = ({ position, setPosition, animationIntervalTime, initialXRange, in
 
   useEffect(() => {
     const animationInterval = setInterval(() => {
+      setCurrentFrameIndex(prevIndex => (prevIndex + 1) % PriestImageSet['walk'].length);
       setBlockPosition(prevPosition => ({
-        x: prevPosition.x + speed, // Adjust based on speed
+        x: prevPosition.x + speed,
         y: prevPosition.y,
       }));
     }, animationIntervalTime);
@@ -68,13 +70,12 @@ const Block = ({ position, setPosition, animationIntervalTime, initialXRange, in
 
   return (
     <>
-    
       {showPopup && (
-        <Popup trigger={true} onClose={handleClosePopup} time={points} user_id = {user_id}></Popup>
+        <Popup trigger={true} onClose={handleClosePopup} time={points} user_id={user_id}></Popup>
       )}
-  
+
       <img
-        src={PriestImageSet['walk'][0]} // Adjust the image index as needed
+        src={PriestImageSet['walk'][currentFrameIndex]} 
         alt="Block"
         style={{
           position: 'absolute',
