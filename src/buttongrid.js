@@ -45,7 +45,7 @@ export default function ButtonGrid({currentTime, user_id}) {
     if (position.y <= 10) {
       setPosition({ x: 416, y: 620 });
       startAnimation(0, 2);
-      setSpeed(prevSpeed => prevSpeed + 1000);
+      setSpeed(prevSpeed => prevSpeed + 20);
     }
   }, [position.y]);
 
@@ -168,7 +168,7 @@ export default function ButtonGrid({currentTime, user_id}) {
         <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={565} speed={speed} time={currentTime} count = {counter} user_id  = {user_id}/>
         <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={425} speed={speed} time={currentTime} count = {counter} user_id  = {user_id}/>
         <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 800 }} initialY={280} speed={speed} time={currentTime} count = {counter} user_id  = {user_id}/>
-        <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 0 }} initialY={635} speed={speed} time={currentTime} count = {counter} user_id  = {user_id}/>
+        {/* <Block position={position} setPosition={setPosition} animationIntervalTime={animationIntervalTime} initialXRange={{ min: 0, max: 0 }} initialY={635} speed={speed} time={currentTime} count = {counter} user_id  = {user_id}/> */}
         <img
           src={currentImageSet[currentImageIndex]}
           alt="Animated Image"
